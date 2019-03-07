@@ -21,7 +21,7 @@ describe('GET /', () => {
 
 
 describe('POST /', () => {
-    it('should return a status code of 200 on POST', async () => {
+    it('should return a status code of 201 on POST', async () => {
         const res = await request(server).post('/')
         expect(res.status).toBe(201)
     })
@@ -33,8 +33,12 @@ describe('POST /', () => {
 
 
 describe('PUT /', () => {
-    it('should return a status code of 200 on PUT', async () => {
-        const res = await request(server).put('/')
+    it('should return a status code of 200 on PUT to valid entry', async () => {
+        const res = await request(server).put('/api/1')
+        expect(res.status).toBe(201)
+    })
+    it('should return a status code of 404 on PUT to invalid entry', async () => {
+        const res = await request(server).put('/api/0')
         expect(res.status).toBe(201)
     })
     it('should return JSON', async () => {
@@ -45,8 +49,12 @@ describe('PUT /', () => {
 
 
 describe('DELETE /', () => {
-    it('should return a status code of 200 on DELETE', async () => {
-        const res = await request(server).delete('/')
+    it('should return a status code of 200 on DELETE on valid entry', async () => {
+        const res = await request(server).delete('/api/1')
         expect(res.status).toBe(204)
+    })
+    it('should return a status code of 404 on DELETE on invalid entry', async () => {
+        const res = await request(server).delete('/api/0')
+        expect(res.status).toBe(404)
     })
 })
